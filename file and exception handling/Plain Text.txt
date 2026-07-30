@@ -1,0 +1,231 @@
+File Handling in Python
+File handling refers to the process of performing operations on a file, such as creating, opening, reading, writing and closing it through a programming interface. It involves managing the data flow between the program and the file system on the storage device, ensuring that data is handled safely and efficiently.
+Why do we need File Handling
+* To store data permanently, even after the program ends.
+* To access external files like .txt, .csv, .json, etc.
+* To process large files efficiently without using much memory.
+* To automate tasks like reading configs or saving outputs.
+Opening a File
+* To open a file, we can use open() function, which requires file-path and mode as arguments.
+Syntax:
+file = open('filename.txt', 'mode')
+
+* filename.txt: name (or path) of the file to be opened.
+* mode: mode in which you want to open the file (read, write, append, etc.).
+Note: If you don’t specify the mode, Python uses 'r' (read mode) by default.
+
+Basic Example: Opening a File
+f = open("hello.txt", "r")
+print(f)
+
+Explanation: This code opens file hello.txt in read mode. If the file exists, it returns a file object connected to that file; if the file does not exist, Python raises a FileNotFoundError.
+
+Closing a File
+The file.close() method closes the file and releases the system resources. If the file was opened in write or append mode, closing ensures that all changes are properly saved.
+file = open("hello.txt", "r")
+# Perform file operations
+file.close()
+We will also see later how closing can be handled automatically using the with statement and how to ensure files close properly using exception handling.
+
+Checking File Properties
+Once the file is open, we can check some of its properties:
+f = open("geek.txt", "r")
+print("Filename:", f.name)
+print("Mode:", f.mode)
+print("Is Closed?", f.closed)
+
+f.close()
+print("Is Closed?", f.closed)
+
+Output:
+Filename: geek.txt
+Mode: r
+Is Closed? False
+Is Closed? True
+Explanation:
+* f.name: Returns the name of the file that was opened (in this case, "geek.txt").
+* f.mode: Tells us the mode in which the file was opened. Here, it’s 'r' which means read mode.
+* f.closed: Returns a boolean value- False when file is currently open otherwise True.
+* Reading a File
+* Reading a file can be achieved by file.read() which reads the entire content of the file. After reading, it’s good practice to close the file to free up system resources.
+* Example: Reading a File in Read Mode (r)
+
+file = open("hello.txt", "r")
+content = file.read()
+print(content)
+file.close()
+
+Writing a File
+In Python, writing to a file is done using the mode "w". This creates a new file if it doesn’t exist, or overwrites the existing file if it does. The write() method is used to add content. After writing, make sure to close the file.
+Example: Writing to a file (overwrites if file exists)
+with open("geek.txt", "w") as file:
+    file.write("Hello, Python!\n")
+    file.write("File handling is easy with Python.")
+
+print("File written successfully")
+
+Explanation:
+* "w" mode opens the file for writing (overwrites existing content if the file already exists).
+* write() method adds new text to the file.
+* When using with, the file closes automatically at the end of the block.
+* Using with Statement
+* Instead of manually opening and closing the file, you can use the with statement, which automatically handles closing. This reduces the risk of file corruption and resource leakage.
+* Example: Let's assume we have a file named hello.txt that contains text "Hello, World!".
+with open("geek.txt", "r") as file:
+    content = file.read()
+    print(content)
+
+Output:
+Hello, World!
+
+
+Exception Handling
+
+Exception Handling in Python is a mechanism used to handle runtime errors (exceptions) so that the normal flow of the program does not stop unexpectedly.
+An exception is an error that occurs during the execution of a program. Instead of crashing the program, Python allows us to handle these errors using special keywords like:
+* try
+* except
+* else
+* finally
+* raise
+
+?? Why Exception Handling is Important?
+* Prevents program from crashing
+* Improves reliability
+* Helps in debugging
+* Provides user-friendly error messages
+* Maintains program flow
+
+Advantages
+Below are some benefits of using exception handling:
+* Improved reliability: Programs don’t crash on unexpected input.
+* Separation of concerns: Error-handling code stays separate from business logic.
+* Cleaner code: Fewer conditional checks scattered in code.
+* Helpful debugging: Tracebacks show exactly where the problem occurred.
+Disadvantages
+Exception handling have some cons as well which are listed below:
+* Performance overhead: Handling exceptions is slower than simple condition checks.
+* Added complexity: Multiple exception types may complicate code.
+* Security risks: Poorly handled exceptions might leak sensitive details.
+* ?? 1?? try Block
+* ?? Definition:
+* The try block contains the code that may cause an exception (runtime error).
+Python first executes the code inside try.
+* If an error occurs ? control goes to except.
+If no error occurs ? except is skipped.
+* ? Syntax:
+* try:
+*     # risky code
+* Example:
+try:
+    num = 10 / 0
+
+Here, division by zero will cause an error.
+?? 2?? except Block
+?? Definition:
+The except block handles the error that occurs inside the try block.
+It prevents the program from crashing.
+Syntax:
+try:
+    # risky code
+except ErrorType:
+    # handling code
+
+Example:
+try:
+    num = 10 / 0
+except ZeroDivisionError:
+    print("Cannot divide by zero")
+?? How it works:
+* Python checks try
+* Error occurs
+* Control jumps to except
+* Program continues normally
+* ?? 3?? else Block
+* ?? Definition:
+* The else block executes only when NO exception occurs in the try block.
+* If an exception occurs ? else will NOT execute.
+* ? Syntax:
+try:
+    # risky code
+except ErrorType:
+    # handle error
+else:
+    # runs if no error
+
+Example:
+
+try:
+    num = int(input("Enter number: "))
+except ValueError:
+    print("Invalid input")
+else:
+    print("You entered:", num)
+
+Working:
+* If user enters valid number ? else runs
+* If invalid input ? except runs, else skipped
+
+?? 4?? finally Block
+
+?? Definition:
+The finally block always executes, whether exception occurs or not.
+It is mainly used for:
+* Closing files
+* Closing database connections
+* Cleaning resources
+? Syntax:
+try:
+    # risky code
+except:
+    # handle error
+finally:
+    # always runs
+
+Example:
+
+try:
+    file = open("data.txt", "r")
+except FileNotFoundError:
+    print("File not found")
+finally:
+    print("Execution completed")
+
+?? Important:
+Even if error occurs or not ? finally will execute.
+
+?? 5?? raise Keyword
+?? Definition:
+The raise keyword is used to manually generate (throw) an exception.
+It allows you to create your own error based on conditions.
+? Syntax:
+raise ErrorType("Error message")
+
+Example:
+age = int(input("Enter age: "))
+
+if age < 18:
+    raise ValueError("Age must be 18 or above")
+
+Working:
+* If condition is wrong ? program stops and shows error message
+* Useful for validation
+Student Record File
+
+Name: Rahul Sharma
+Age: 20
+Branch: Mechanical Engineering
+Marks: 85
+
+Name: Anita Verma
+Age: 21
+Branch: Computer Science
+Marks: 90
+
+Name: Amit Singh
+Age: 19
+Branch: Electrical Engineering
+Marks: 78
+
+This file is created for practicing File Handling in Python.
+We will read this file using Google Colab.
